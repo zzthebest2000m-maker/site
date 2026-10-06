@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -65,7 +65,7 @@
             font-family: 'Space Grotesk', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
-            overflow: hidden;
+            overflow-x: hidden; overflow-y: auto; min-height: 100vh;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
@@ -255,7 +255,7 @@
     <div class="bg-animation"></div>
 
     <!-- Theme Toggle Button -->
-    <button id="theme-toggle" class="fixed top-6 right-6 z-[110] w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl transition-all duration-300 hover:scale-110 shadow-lg cursor-pointer" title="Переключить тему">
+    <button id="theme-toggle" class="fixed top-4 right-4 sm:top-6 sm:right-6 z-[110] w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-card flex items-center justify-center text-xl transition-all duration-300 hover:scale-110 shadow-lg cursor-pointer" title="Переключить тему">
         <i id="theme-icon" class="fa-solid fa-moon"></i>
     </button>
 
@@ -267,7 +267,7 @@
     </div>
 
     <!-- Compact Music Player (Positioned Left, Small & Sleek) -->
-    <div id="top-music-player" class="fixed top-6 left-4 sm:left-8 z-40 w-auto max-w-[270px] sm:max-w-[300px] glass-card rounded-full p-2 pr-4 flex items-center gap-3 hidden-overlay transition-all duration-1000 ease-in-out">
+    <div id="top-music-player" class="fixed top-4 left-4 sm:top-6 sm:left-8 z-40 w-auto max-w-[220px] xs:max-w-[270px] sm:max-w-[300px] glass-card rounded-full p-2 pr-4 flex items-center gap-3 hidden-overlay transition-all duration-1000 ease-in-out">
 
         <!-- Spinning Vinyl Disc (Compact 46x46px) -->
         <div class="relative rounded-full border border-gray-300/30 overflow-hidden shadow-md shrink-0" id="vinyl-disc" style="width: 46px; height: 46px; min-width: 46px; min-height: 46px;">
@@ -302,54 +302,54 @@
     </div>
 
     <!-- Main Content Container -->
-    <main id="main-content" class="w-full h-screen flex justify-center items-center p-4 sm:p-8" style="opacity: 0; visibility: hidden; transition: opacity 1.5s ease-in;">
+    <main id="main-content" class="w-full min-h-[100dvh] flex justify-center items-center p-4 sm:p-8" style="opacity: 0; visibility: hidden; transition: opacity 1.5s ease-in;">
 
         <!-- Glassmorphism Bio Card (Shifted to the right on desktop to balance with left player) -->
-        <div class="w-full max-w-[760px] p-8 sm:p-14 flex flex-col items-center text-center relative mt-14 sm:mt-10">
+        <div class="w-full max-w-[760px] p-4 sm:p-10 md:p-14 flex flex-col items-center text-center relative mt-24 sm:mt-10 mb-10">
 
             <!-- Avatar with Canvas for Particles (Raised higher above text) -->
             <div class="avatar-wrapper mb-8 sm:mb-12 fade-in-up delay-1">
                 <!-- Particle Canvas -->
                 <canvas id="particles-canvas" width="500" height="500"></canvas>
                 <!-- Profile Image -->
-                <img id="avatar-element" src="photo.jpeg" alt="сосиски12" class="avatar-img w-48 h-48 sm:w-56 sm:h-56 rounded-full object-cover">
+                <img id="avatar-element" src="photo.jpeg" alt="сосиски12" class="avatar-img w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full object-cover">
             </div>
 
             <!-- Name / Nickname -->
-            <h1 class="text-6xl sm:text-7xl mb-6 tracking-wide fade-in-up delay-2 uppercase transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--text-main);">
+            <h1 class="text-4xl sm:text-6xl md:text-7xl mb-6 tracking-wide fade-in-up delay-2 uppercase transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--text-main);">
                 сосиски12
             </h1>
 
             <!-- Bio Description (Stylized Quote) -->
             <div class="w-full px-4 sm:px-12 mb-12 mt-4 fade-in-up delay-3 relative">
                 <!-- Background decorative quotes -->
-                <i class="fa-solid fa-quote-left absolute -top-6 left-2 sm:left-6 text-5xl sm:text-6xl -z-10 transition-colors duration-300" style="color: var(--quote-icon);"></i>
+                <i class="fa-solid fa-quote-left absolute -top-6 left-2 sm:left-6 text-3xl sm:text-5xl md:text-6xl -z-10 transition-colors duration-300" style="color: var(--quote-icon);"></i>
 
-                <p class="text-3xl sm:text-4xl leading-relaxed transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-style: italic; color: var(--text-main);">
+                <p class="text-xl sm:text-3xl md:text-4xl leading-relaxed transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-style: italic; color: var(--text-main);">
                     «Сначала завтрак, потом полдник.»
                 </p>
                 <p class="text-base sm:text-lg text-right mt-3 opacity-80 tracking-wide transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 400; color: var(--text-muted);">
                     — Сосиски12
                 </p>
 
-                <i class="fa-solid fa-quote-right absolute -bottom-8 right-2 sm:right-6 text-5xl sm:text-6xl -z-10 transition-colors duration-300" style="color: var(--quote-icon);"></i>
+                <i class="fa-solid fa-quote-right absolute -bottom-8 right-2 sm:right-6 text-3xl sm:text-5xl md:text-6xl -z-10 transition-colors duration-300" style="color: var(--quote-icon);"></i>
             </div>
 
             <!-- Social Media Icons -->
             <div class="flex justify-center gap-8 sm:gap-12 w-full fade-in-up delay-4">
 
                 <!-- Telegram -->
-                <a href="https://t.me/sosison12" target="_blank" class="social-icon text-5xl sm:text-6xl" title="Telegram">
+                <a href="https://t.me/sosison12" target="_blank" class="social-icon text-4xl sm:text-5xl md:text-6xl" title="Telegram">
                     <i class="fa-brands fa-telegram"></i>
                 </a>
 
                 <!-- Discord -->
-                <a href="#" onclick="copyDiscord(event)" class="social-icon text-5xl sm:text-6xl" title="Скопировать Discord">
+                <a href="#" onclick="copyDiscord(event)" class="social-icon text-4xl sm:text-5xl md:text-6xl" title="Скопировать Discord">
                     <i class="fa-brands fa-discord"></i>
                 </a>
 
                 <!-- Steam -->
-                <a href="https://steamcommunity.com/profiles/76561199890445568/" target="_blank" class="social-icon text-5xl sm:text-6xl" title="Steam">
+                <a href="https://steamcommunity.com/profiles/76561199890445568/" target="_blank" class="social-icon text-4xl sm:text-5xl md:text-6xl" title="Steam">
                     <i class="fa-brands fa-steam"></i>
                 </a>
 
