@@ -1,0 +1,755 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>сосиски12</title>
+    <link rel="icon" type="image/jpeg" href="photo.jpeg">
+
+    <!-- Tailwind CSS for layout and styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome for Social Media Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-anim-1: #f8fafc;
+            --bg-anim-2: #e2e8f0;
+            --bg-anim-3: #f1f5f9;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(0, 0, 0, 0.07);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+            --glass-shadow-hover: 0 20px 45px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --avatar-border: #ffffff;
+            --quote-icon: rgba(0, 0, 0, 0.08);
+            --social-color: #374151;
+            --social-hover: #000000;
+            --progress-bg: rgba(0, 0, 0, 0.08);
+            --entry-bg: #ffffff;
+            --entry-text: #000000;
+            --song-color: #0087B7;
+            --song-glow: rgba(0, 135, 183, 0.45);
+            --song-glow-light: rgba(0, 135, 183, 0.2);
+        }
+
+        html.dark {
+            --bg-body: #0b0f19;
+            --bg-anim-1: #070a12;
+            --bg-anim-2: #0f172a;
+            --bg-anim-3: #111827;
+            --glass-bg: rgba(17, 24, 39, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+            --glass-shadow-hover: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --avatar-border: #1f2937;
+            --quote-icon: rgba(255, 255, 255, 0.06);
+            --social-color: #9ca3af;
+            --social-hover: #ffffff;
+            --progress-bg: rgba(255, 255, 255, 0.12);
+            --entry-bg: #0b0f19;
+            --entry-text: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Subtle animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: linear-gradient(135deg, var(--bg-anim-1), var(--bg-anim-2), var(--bg-anim-3));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            transition: background 0.5s ease;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .glass-card:hover {
+            box-shadow: var(--glass-shadow-hover);
+        }
+
+        .main-card:hover {
+            transform: translateY(-4px) var(--tw-translate-x, 0);
+        }
+
+        /* Avatar Container for Canvas */
+        .avatar-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 240px;
+        }
+
+        #particles-canvas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .avatar-img {
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2), 0 0 30px var(--song-glow);
+            border: 4px solid var(--avatar-border);
+            transition: transform 0.35s ease-out, box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .avatar-img:hover {
+            transform: scale(1.04);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 45px var(--song-glow);
+        }
+
+        /* Social Icons */
+        .social-icon {
+            color: var(--social-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .social-icon:hover {
+            color: var(--social-hover);
+            transform: translateY(-8px) scale(1.15);
+            text-shadow: 0 10px 20px var(--song-glow);
+        }
+
+        /* Music Player Styles - Compact on Left */
+        #top-music-player {
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), 0 0 20px var(--song-glow-light);
+            transition: all 0.5s ease;
+        }
+
+        .player-control-btn {
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+        .player-control-btn:hover {
+            color: var(--song-color);
+            transform: scale(1.15);
+        }
+
+        .progress-bar-bg {
+            background: var(--progress-bg);
+        }
+
+        .progress-bar-fill {
+            background: var(--song-color);
+            box-shadow: 0 0 8px var(--song-glow);
+            transition: width 0.1s linear, background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* Vinyl Spinning Animation */
+        @keyframes spinVinyl {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .spinning {
+            animation: spinVinyl 4s linear infinite;
+        }
+
+        .paused {
+            animation-play-state: paused;
+        }
+
+        /* Entry Screen Styles */
+        #entry-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--entry-bg);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out, background-color 0.4s ease;
+        }
+
+        .pulse-text {
+            animation: pulseText 2s infinite;
+            font-size: 1.5rem;
+            letter-spacing: 0.15em;
+            color: var(--entry-text);
+        }
+
+        /* Keyframes */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; text-shadow: 0 0 15px var(--song-glow); }
+            100% { opacity: 0.4; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
+        .hidden-overlay {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Audio Element -->
+    <audio id="bg-music"></audio>
+
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="fixed top-6 right-6 z-[110] w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl transition-all duration-300 hover:scale-110 shadow-lg cursor-pointer" title="Переключить тему">
+        <i id="theme-icon" class="fa-solid fa-moon"></i>
+    </button>
+
+    <!-- Entry Screen -->
+    <div id="entry-screen">
+        <div class="pulse-text select-none font-semibold">
+            Click =(
+        </div>
+    </div>
+
+    <!-- Compact Music Player (Positioned Left, Small & Sleek) -->
+    <div id="top-music-player" class="fixed top-6 left-4 sm:left-8 z-40 w-auto max-w-[270px] sm:max-w-[300px] glass-card rounded-full p-2 pr-4 flex items-center gap-3 hidden-overlay transition-all duration-1000 ease-in-out">
+
+        <!-- Spinning Vinyl Disc (Compact 46x46px) -->
+        <div class="relative rounded-full border border-gray-300/30 overflow-hidden shadow-md shrink-0" id="vinyl-disc" style="width: 46px; height: 46px; min-width: 46px; min-height: 46px;">
+            <img id="track-cover" src="covers/cover_1.png" alt="Cover" class="w-full h-full object-cover">
+            <!-- Center hole effect -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 rounded-full border border-gray-400/40 z-10 shadow-inner" style="width: 10px; height: 10px;"></div>
+        </div>
+
+        <!-- Track Info & Controls -->
+        <div class="flex-1 overflow-hidden flex flex-col justify-center min-w-[125px]">
+
+            <!-- Title, Artist and Buttons Row -->
+            <div class="flex justify-between items-center mb-1 gap-2">
+                <div class="overflow-hidden flex-1">
+                    <div id="track-title" class="font-bold text-xs sm:text-sm truncate transition-colors duration-300" style="color: var(--text-main);">Track Title</div>
+                    <div id="track-artist" class="text-[9px] sm:text-[10px] truncate font-semibold uppercase tracking-wider transition-colors duration-300" style="color: var(--text-muted);">Artist Name</div>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button id="prev-btn" class="player-control-btn text-xs"><i class="fa-solid fa-backward-step"></i></button>
+                    <button id="play-btn" class="player-control-btn text-sm w-4 text-center"><i id="play-icon" class="fa-solid fa-play"></i></button>
+                    <button id="next-btn" class="player-control-btn text-xs"><i class="fa-solid fa-forward-step"></i></button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-bg h-1.5 w-full rounded-full overflow-hidden cursor-pointer" id="progress-container">
+                <div id="progress-fill" class="progress-bar-fill h-full w-0 rounded-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main id="main-content" class="w-full h-screen flex justify-center items-center p-4 sm:p-8" style="opacity: 0; visibility: hidden; transition: opacity 1.5s ease-in;">
+
+        <!-- Glassmorphism Bio Card (Shifted to the right on desktop to balance with left player) -->
+        <div class="w-full max-w-[760px] p-8 sm:p-14 flex flex-col items-center text-center relative mt-14 sm:mt-10">
+
+            <!-- Avatar with Canvas for Particles (Raised higher above text) -->
+            <div class="avatar-wrapper mb-8 sm:mb-12 fade-in-up delay-1">
+                <!-- Particle Canvas -->
+                <canvas id="particles-canvas" width="500" height="500"></canvas>
+                <!-- Profile Image -->
+                <img id="avatar-element" src="photo.jpeg" alt="сосиски12" class="avatar-img w-48 h-48 sm:w-56 sm:h-56 rounded-full object-cover">
+            </div>
+
+            <!-- Name / Nickname -->
+            <h1 class="text-6xl sm:text-7xl mb-6 tracking-wide fade-in-up delay-2 uppercase transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--text-main);">
+                сосиски12
+            </h1>
+
+            <!-- Bio Description (Stylized Quote) -->
+            <div class="w-full px-4 sm:px-12 mb-12 mt-4 fade-in-up delay-3 relative">
+                <!-- Background decorative quotes -->
+                <i class="fa-solid fa-quote-left absolute -top-6 left-2 sm:left-6 text-5xl sm:text-6xl -z-10 transition-colors duration-300" style="color: var(--quote-icon);"></i>
+
+                <p class="text-3xl sm:text-4xl leading-relaxed transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-style: italic; color: var(--text-main);">
+                    «Сначала завтрак, потом полдник.»
+                </p>
+                <p class="text-base sm:text-lg text-right mt-3 opacity-80 tracking-wide transition-colors duration-300" style="font-family: 'Montserrat', sans-serif; font-weight: 400; color: var(--text-muted);">
+                    — Сосиски12
+                </p>
+
+                <i class="fa-solid fa-quote-right absolute -bottom-8 right-2 sm:right-6 text-5xl sm:text-6xl -z-10 transition-colors duration-300" style="color: var(--quote-icon);"></i>
+            </div>
+
+            <!-- Social Media Icons -->
+            <div class="flex justify-center gap-8 sm:gap-12 w-full fade-in-up delay-4">
+
+                <!-- Telegram -->
+                <a href="https://t.me/sosison12" target="_blank" class="social-icon text-5xl sm:text-6xl" title="Telegram">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+
+                <!-- Discord -->
+                <a href="#" onclick="copyDiscord(event)" class="social-icon text-5xl sm:text-6xl" title="Скопировать Discord">
+                    <i class="fa-brands fa-discord"></i>
+                </a>
+
+                <!-- Steam -->
+                <a href="https://steamcommunity.com/profiles/76561199890445568/" target="_blank" class="social-icon text-5xl sm:text-6xl" title="Steam">
+                    <i class="fa-brands fa-steam"></i>
+                </a>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Custom Toast Notification -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 glass-card px-6 py-3 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none z-50 shadow-xl text-sm sm:text-base font-semibold" style="color: var(--text-main);">
+        Скопировано!
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Playlist configuration (5 songs with BPM) ---
+            const playlist = [
+                {
+                    title: "de_survivor",
+                    artist: "ONDA ANDAR",
+                    src: "music/onda_andar_de_survivor.mp3",
+                    cover: "covers/cover_1.png",
+                    color: "#0087B7",
+                    bpm: 130
+                },
+                {
+                    title: "SFIRE 7",
+                    artist: "SFIRE",
+                    src: "music/sfire_7.mp3",
+                    cover: "covers/cover_2.png",
+                    color: "#F35B71",
+                    bpm: 124
+                },
+                {
+                    title: "Dramatic Exit",
+                    artist: "DMX Krew",
+                    src: "music/dmx_krew_dramatic_exit.mp3",
+                    cover: "covers/cover_3.png",
+                    color: "#FE5065",
+                    bpm: 128
+                },
+                {
+                    title: "Ptolemy",
+                    artist: "Aphex Twin",
+                    src: "music/aphex_twin_ptolemy.mp3",
+                    cover: "covers/cover_4.png",
+                    color: "#9E9E9E",
+                    bpm: 126
+                },
+                {
+                    title: "Candyland",
+                    artist: "Tobu",
+                    src: "music/tobu_candyland.mp3",
+                    cover: "covers/cover_5.png",
+                    color: "#B2CB3E",
+                    bpm: 128
+                }
+            ];
+
+            // Random track selection on entry
+            let currentSongIndex = Math.floor(Math.random() * playlist.length);
+            let isPlaying = false;
+            let currentSongColor = playlist[currentSongIndex].color;
+
+            // --- Theme Switcher ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+
+            function setTheme(isDark) {
+                if (isDark) {
+                    document.documentElement.classList.add('dark');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                setTheme(true);
+            } else {
+                setTheme(false);
+            }
+
+            themeToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isDark = document.documentElement.classList.contains('dark');
+                setTheme(!isDark);
+            });
+
+            // --- Helper: Hex to RGBA ---
+            function hexToRgba(hex, alpha) {
+                hex = hex.replace('#', '');
+                if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+                const num = parseInt(hex, 16);
+                const r = (num >> 16) & 255;
+                const g = (num >> 8) & 255;
+                const b = num & 255;
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+
+            function updateSongThemeColor(color) {
+                currentSongColor = color;
+                document.documentElement.style.setProperty('--song-color', color);
+                document.documentElement.style.setProperty('--song-glow', hexToRgba(color, 0.45));
+                document.documentElement.style.setProperty('--song-glow-light', hexToRgba(color, 0.2));
+            }
+
+            // --- DOM Elements ---
+            const entryScreen = document.getElementById('entry-screen');
+            const mainContent = document.getElementById('main-content');
+            const topMusicPlayer = document.getElementById('top-music-player');
+            const avatarImg = document.getElementById('avatar-element');
+
+            const bgMusic = document.getElementById('bg-music');
+            const playBtn = document.getElementById('play-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const playIcon = document.getElementById('play-icon');
+
+            const trackTitle = document.getElementById('track-title');
+            const trackArtist = document.getElementById('track-artist');
+            const trackCover = document.getElementById('track-cover');
+            const vinylDisc = document.getElementById('vinyl-disc');
+
+            const progressFill = document.getElementById('progress-fill');
+            const progressContainer = document.getElementById('progress-container');
+
+            bgMusic.volume = 0.35;
+
+            // --- Optional Web Audio API (if not blocked by CORS) ---
+            let audioCtx = null;
+            let analyser = null;
+            let freqData = null;
+            let webAudioWorking = false;
+
+            function initAudioContext() {
+                try {
+                    if (location.protocol === 'http:' || location.protocol === 'https:') {
+                        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                        if (!audioCtx) {
+                            audioCtx = new AudioContextClass();
+                            analyser = audioCtx.createAnalyser();
+                            analyser.fftSize = 128;
+                            const src = audioCtx.createMediaElementSource(bgMusic);
+                            src.connect(analyser);
+                            analyser.connect(audioCtx.destination);
+                            freqData = new Uint8Array(analyser.frequencyBinCount);
+                            webAudioWorking = true;
+                        }
+                        if (audioCtx.state === 'suspended') audioCtx.resume();
+                    }
+                } catch (e) {
+                    webAudioWorking = false;
+                }
+            }
+
+            // --- Player Logic ---
+            function loadSong(index) {
+                const song = playlist[index];
+                trackTitle.textContent = song.title;
+                trackArtist.textContent = song.artist;
+                trackCover.src = song.cover;
+                bgMusic.src = song.src;
+                progressFill.style.width = '0%';
+                updateSongThemeColor(song.color);
+            }
+
+            function playSong() {
+                initAudioContext();
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                    vinylDisc.classList.add('spinning');
+                    vinylDisc.classList.remove('paused');
+                }).catch(err => console.log("Playback error:", err));
+            }
+
+            function pauseSong() {
+                bgMusic.pause();
+                isPlaying = false;
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+                vinylDisc.classList.add('paused');
+            }
+
+            function prevSong() {
+                currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+                loadSong(currentSongIndex);
+                if (isPlaying) playSong();
+            }
+
+            function nextSong() {
+                currentSongIndex = (currentSongIndex + 1) % playlist.length;
+                loadSong(currentSongIndex);
+                if (isPlaying) playSong();
+            }
+
+            // Load initial random song
+            loadSong(currentSongIndex);
+
+            // --- Event Listeners ---
+            entryScreen.addEventListener('click', () => {
+                playSong();
+                entryScreen.classList.add('hidden-overlay');
+
+                setTimeout(() => {
+                    topMusicPlayer.classList.remove('hidden-overlay');
+                    mainContent.style.opacity = '1';
+                    mainContent.style.visibility = 'visible';
+                    startAnimation();
+                }, 600);
+            });
+
+            playBtn.addEventListener('click', () => isPlaying ? pauseSong() : playSong());
+            prevBtn.addEventListener('click', prevSong);
+            nextBtn.addEventListener('click', nextSong);
+            bgMusic.addEventListener('ended', nextSong);
+
+            bgMusic.addEventListener('timeupdate', () => {
+                if (bgMusic.duration) {
+                    const progressPercent = (bgMusic.currentTime / bgMusic.duration) * 100;
+                    progressFill.style.width = `${progressPercent}%`;
+                }
+            });
+
+            progressContainer.addEventListener('click', (e) => {
+                const width = progressContainer.clientWidth;
+                const clickX = e.offsetX;
+                if(bgMusic.duration) bgMusic.currentTime = (clickX / width) * bgMusic.duration;
+            });
+
+            // --- Pure Glowing Particle Engine (No Waves / No Ovals) ---
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let particlesArray = [];
+            let animationFrameId;
+
+            class Particle {
+                constructor(color, extraSpeed = 1, isBeat = false) {
+                    this.x = canvas.width / 2;
+                    this.y = canvas.height / 2;
+                    const angle = Math.random() * Math.PI * 2;
+                    
+                    // Spawn from behind the avatar border
+                    const spawnDist = 88 + Math.random() * 22;
+                    this.x += Math.cos(angle) * spawnDist;
+                    this.y += Math.sin(angle) * spawnDist;
+
+                    const speed = (isBeat ? (Math.random() * 2.2 + 1.2) : (Math.random() * 1.1 + 0.4)) * extraSpeed;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+
+                    this.size = isBeat ? (Math.random() * 2.8 + 1.6) : (Math.random() * 2.2 + 0.8);
+                    this.life = 1;
+                    this.fadeRate = isBeat ? (Math.random() * 0.012 + 0.007) : (Math.random() * 0.008 + 0.004);
+                    this.color = color;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vx *= 0.99; // Smooth air resistance
+                    this.vy *= 0.99;
+                    this.life -= this.fadeRate;
+                }
+
+                draw(context) {
+                    if (this.life <= 0) return;
+                    context.save();
+                    context.beginPath();
+                    context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    context.fillStyle = hexToRgba(this.color, this.life * 0.85);
+                    context.shadowBlur = 12;
+                    context.shadowColor = this.color;
+                    context.fill();
+                    context.restore();
+                }
+            }
+
+            let lastBeatStamp = 0;
+
+            function detectBeat() {
+                if (!isPlaying) return { isBeat: false, intensity: 0 };
+
+                if (webAudioWorking && analyser && freqData) {
+                    analyser.getByteFrequencyData(freqData);
+                    let bass = 0;
+                    for (let i = 1; i <= 6; i++) bass += freqData[i];
+                    bass /= 6;
+                    const now = performance.now();
+                    if (bass > 135 && (now - lastBeatStamp) > 280) {
+                        lastBeatStamp = now;
+                        return { isBeat: true, intensity: bass / 255 };
+                    }
+                }
+
+                const song = playlist[currentSongIndex];
+                const bpm = song.bpm || 128;
+                const beatDuration = 60 / bpm;
+                const time = bgMusic.currentTime;
+                const beatPhase = (time % beatDuration) / beatDuration;
+                const now = performance.now();
+
+                if (beatPhase < 0.12 && (now - lastBeatStamp) > (beatDuration * 750)) {
+                    lastBeatStamp = now;
+                    return { isBeat: true, intensity: 1.0 };
+                }
+
+                return { isBeat: false, intensity: 0 };
+            }
+
+            function handleBeatAndParticles() {
+                const beat = detectBeat();
+
+                if (beat.isBeat) {
+                    // Very soft, subtle breathe to the beat (no jerky shaking)
+                    if (avatarImg) {
+                        avatarImg.style.transform = 'scale(1.018)';
+                        setTimeout(() => {
+                            if (avatarImg) avatarImg.style.transform = 'scale(1)';
+                        }, 180);
+                    }
+
+                    // Burst of glowing particles on the beat
+                    for (let i = 0; i < 9; i++) {
+                        particlesArray.push(new Particle(currentSongColor, 1.3, true));
+                    }
+                } else if (isPlaying && particlesArray.length < 85 && Math.random() < 0.35) {
+                    // Gentle ambient drifting particles
+                    particlesArray.push(new Particle(currentSongColor, 0.9, false));
+                }
+
+                // Update & draw particles
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw(ctx);
+                    if (particlesArray[i].life <= 0) {
+                        particlesArray.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+
+            function animateCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                handleBeatAndParticles();
+                animationFrameId = requestAnimationFrame(animateCanvas);
+            }
+
+            function startAnimation() {
+                if (!animationFrameId) {
+                    animateCanvas();
+                }
+            }
+
+            // --- Copy to Clipboard Logic ---
+            window.copyDiscord = function(e) {
+                e.preventDefault();
+                const text = 'cocicki12_official';
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast(`Ник ${text} скопирован!`);
+                    }).catch(() => fallbackCopy(text));
+                } else {
+                    fallbackCopy(text);
+                }
+            };
+
+            function fallbackCopy(text) {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast(`Ник ${text} скопирован!`);
+                } catch (err) {
+                    console.error('Copy failed', err);
+                }
+                document.body.removeChild(textArea);
+            }
+
+            function showToast(msg) {
+                const toast = document.getElementById('toast');
+                toast.textContent = msg;
+                toast.classList.remove('opacity-0');
+
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                }, 2500);
+            }
+        });
+    </script>
+</body>
+</html>
